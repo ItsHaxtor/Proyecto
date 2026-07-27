@@ -1,0 +1,198 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype ortho
+
+title Cinema Management System - Class Diagram
+
+'====================================================
+' CONTROLLERS
+'====================================================
+
+package "Controllers" {
+
+interface ActionListener {
+    +actionPerformed()
+}
+
+class MainController {
+    -mainView : MainView
+    -billBoardController : BillBoardController
+    -candyShopController : CandyShopController
+    -customerInformationController : CustomerInformationController
+    -finalBillController : FinalBillController
+    -selectedSeatsController : SelectedSeatsController
+    -ticketShopController : TicketShopController
+}
+
+class BillBoardController {
+    -billBoardView : BillBoardView
+    -ticketShopView : TicketShopView
+    -mainView : MainView
+}
+
+class CandyShopController {
+    -candyShopView : CandyShopView
+    -mainView : MainView
+    -candysDAO : CandysDAO
+}
+
+class CustomerInformationController {
+    -customerInformationView : CustomerInformationView
+    -mainView : MainView
+    -movieDAO : MovieDAO
+    -customerDAO : CustomerDAO
+}
+
+class FinalBillController {
+    -finalBillView : FinalBillView
+    -customerInformationView : CustomerInformationView
+    -ticketShopView : TicketShopView
+    -mainView : MainView
+    -customerDAO : CustomerDAO
+    -movieDAO : MovieDAO
+}
+
+class SelectedSeatsController {
+    -selectedSeatsView : SelectedSeatsView
+    -mainView : MainView
+}
+
+class TicketShopController {
+    -ticketShopView : TicketShopView
+    -mainView : MainView
+    -movieDAO : MovieDAO
+    -saleDAO : SaleDAO
+}
+
+}
+
+'====================================================
+' DAOs
+'====================================================
+
+package "DAOs" {
+
+class CandysDAO {
+    +saveCandy()
+    +candyList()
+    +searchCandy()
+}
+
+class CustomerDAO {
+    +saveCustomer()
+    +customerList()
+    +searchCustomer()
+}
+
+class MovieDAO {
+    +saveMovie()
+    +movieList()
+    +searchMovie()
+}
+
+class SaleDAO {
+    +saveSale()
+    +saleList()
+    +searchSale()
+}
+
+}
+
+'====================================================
+' ENTITIES
+'====================================================
+
+package "Entities" {
+
+class AvailableSeats {
+    -room : String
+    -availableSeats : int
+}
+
+class Candy {
+    -id : String
+    -name : String
+    -price : double
+    -amount : int
+}
+
+class CinemaSeat {
+    -type : String
+    -seatPrice : double
+    -ticketNumber : int
+    -numberOfSeats : int
+}
+
+class Customer {
+    -name : String
+    -lastName : String
+    -email : String
+    -dni : int
+    -numberPhone : int
+}
+
+class Movie {
+    -name : String
+    -price : double
+}
+
+class Sale {
+    -id : String
+    -date : LocalDateTime
+    -totalSale : double
+}
+
+class SaleDetail {
+    -movieName : String
+    -amountTickets : int
+    -totalPrice : double
+}
+
+}
+
+'====================================================
+' VIEWS
+'====================================================
+
+package "Views" {
+
+class MainView
+class BillBoardView
+class CandyShopView
+class CustomerInformationView
+class FinalBillView
+class SelectedSeatsView
+class TicketShopView
+
+}
+
+'====================================================
+' IMPLEMENTATION OF ACTION LISTENER
+'====================================================
+
+ActionListener <|.. MainController
+ActionListener <|.. BillBoardController
+ActionListener <|.. CandyShopController
+ActionListener <|.. CustomerInformationController
+ActionListener <|.. FinalBillController
+ActionListener <|.. SelectedSeatsController
+ActionListener <|.. TicketShopController
+
+'====================================================
+' CONTROLLER -> VIEW
+'====================================================
+
+BillBoardController --> BillBoardView
+CandyShopController --> CandyShopView
+CustomerInformationController --> CustomerInformationView
+FinalBillController --> FinalBillView
+SelectedSeatsController --> SelectedSeatsView
+TicketShopController --> TicketShopView
+MainController --> MainView
+
+'====================================================
+' CONTROLLER -> DAO
+'===================================================
